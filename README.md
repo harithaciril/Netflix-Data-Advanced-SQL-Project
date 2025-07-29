@@ -1,7 +1,5 @@
 # Netflix Movies and TV Shows Data Analysis using SQL
 
-![](https://github.com/najirh/netflix_sql_project/blob/main/logo.png)
-
 ## Overview
 This project involves a comprehensive analysis of Netflix's movies and TV shows data using SQL. The goal is to extract valuable insights and answer various business questions based on the dataset. The following README provides a detailed account of the project's objectives, business problems, solutions, findings, and conclusions.
 
@@ -21,6 +19,7 @@ The data for this project is sourced from the Kaggle dataset:
 ## Schema
 
 ```sql
+CREATE DATABASE netflix;
 DROP TABLE IF EXISTS netflix;
 CREATE TABLE netflix
 (
@@ -39,9 +38,9 @@ CREATE TABLE netflix
 );
 ```
 
-## Business Problems and Solutions
+## Data Analysis & Findings
 
-### 1. Count the Number of Movies vs TV Shows
+### 1. The Number of Movies vs TV Shows
 
 ```sql
 SELECT 
@@ -53,7 +52,7 @@ GROUP BY 1;
 
 **Objective:** Determine the distribution of content types on Netflix.
 
-### 2. Find the Most Common Rating for Movies and TV Shows
+### 2. Most Common Rating for Movies and TV Shows
 
 ```sql
 WITH RatingCounts AS (
@@ -91,7 +90,7 @@ WHERE release_year = 2020;
 
 **Objective:** Retrieve all movies released in a specific year.
 
-### 4. Find the Top 5 Countries with the Most Content on Netflix
+### 4. Top 5 Countries with the Most Content on Netflix
 
 ```sql
 SELECT * 
@@ -132,7 +131,7 @@ WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years'
 
 **Objective:** Retrieve content added to Netflix in the last 5 years.
 
-### 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+### 7. Find All Movies/TV Shows by Director 'Scott Stewart'
 
 ```sql
 SELECT *
@@ -142,10 +141,10 @@ FROM (
         UNNEST(STRING_TO_ARRAY(director, ',')) AS director_name
     FROM netflix
 ) AS t
-WHERE director_name = 'Rajiv Chilaka';
+WHERE director_name = 'Scott Stewart';
 ```
 
-**Objective:** List all content directed by 'Rajiv Chilaka'.
+**Objective:** List all content directed by 'Scott Stewart'.
 
 ### 8. List All TV Shows with More Than 5 Seasons
 
@@ -211,33 +210,7 @@ WHERE director IS NULL;
 
 **Objective:** List content that does not have a director.
 
-### 13. Find How Many Movies Actor 'Salman Khan' Appeared in the Last 10 Years
-
-```sql
-SELECT * 
-FROM netflix
-WHERE casts LIKE '%Salman Khan%'
-  AND release_year > EXTRACT(YEAR FROM CURRENT_DATE) - 10;
-```
-
-**Objective:** Count the number of movies featuring 'Salman Khan' in the last 10 years.
-
-### 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
-
-```sql
-SELECT 
-    UNNEST(STRING_TO_ARRAY(casts, ',')) AS actor,
-    COUNT(*)
-FROM netflix
-WHERE country = 'India'
-GROUP BY actor
-ORDER BY COUNT(*) DESC
-LIMIT 10;
-```
-
-**Objective:** Identify the top 10 actors with the most appearances in Indian-produced movies.
-
-### 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
+### 13. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords
 
 ```sql
 SELECT 
@@ -254,6 +227,23 @@ FROM (
 GROUP BY category;
 ```
 
+### 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India
+
+```sql
+SELECT 
+    UNNEST(STRING_TO_ARRAY(casts, ',')) AS actor,
+    COUNT(*)
+FROM netflix
+WHERE country = 'India'
+GROUP BY actor
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+```
+
+**Objective:** Identify the top 10 actors with the most appearances in Indian-produced movies.
+
+
+
 **Objective:** Categorize content as 'Bad' if it contains 'kill' or 'violence' and 'Good' otherwise. Count the number of items in each category.
 
 ## Findings and Conclusion
@@ -267,17 +257,8 @@ This analysis provides a comprehensive view of Netflix's content and can help in
 
 
 
-## Author - Zero Analyst
+## Author - Haritha Ciril
 
 This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
-
-### Stay Updated and Join the Community
-
-For more content on SQL, data analysis, and other data-related topics, make sure to follow me on social media and join our community:
-
-- **YouTube**: [Subscribe to my channel for tutorials and insights](https://www.youtube.com/@zero_analyst)
-- **Instagram**: [Follow me for daily tips and updates](https://www.instagram.com/zero_analyst/)
-- **LinkedIn**: [Connect with me professionally](https://www.linkedin.com/in/najirr)
-- **Discord**: [Join our community to learn and grow together](https://discord.gg/36h5f2Z5PK)
 
 Thank you for your support, and I look forward to connecting with you!
